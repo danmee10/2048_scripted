@@ -5,32 +5,32 @@ class Strategy
     @name = name
   end
 
-  def run(element)
+  def run(elem)
     case name
-    when "clockwise" then run_clockwise(element)
-    when "counter_clockwise" then run_counter_clockwise(element)
-    when "random" then run_random(element)
+    when "clockwise" then run_clockwise(elem)
+    when "counter_clockwise" then run_counter_clockwise(elem)
+    when "random" then run_random(elem)
     else
       raise "Not implemented error"
     end
   end
 
-  def run_clockwise(element)
-    element.send_keys :arrow_left
-    element.send_keys :arrow_up
-    element.send_keys :arrow_right
-    element.send_keys :arrow_down
+  def run_clockwise(elem)
+    elem.send_keys :arrow_left
+    elem.send_keys :arrow_up
+    elem.send_keys :arrow_right
+    elem.send_keys :arrow_down
   end
 
-  def run_counter_clockwise(element)
-    element.send_keys :arrow_left
-    element.send_keys :arrow_down
-    element.send_keys :arrow_right
-    element.send_keys :arrow_up
+  def run_counter_clockwise(elem)
+    elem.send_keys :arrow_left
+    elem.send_keys :arrow_down
+    elem.send_keys :arrow_right
+    elem.send_keys :arrow_up
   end
 
-  def run_random(element)
+  def run_random(elem)
     arr = [:arrow_left, :arrow_up, :arrow_right, :arrow_down]
-    element.send_keys arr.sample
+    elem.send_keys arr.sample
   end
 end
