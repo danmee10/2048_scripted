@@ -1,3 +1,5 @@
+require_relative "winning_strategy"
+
 class Strategy
   attr_reader :name
 
@@ -10,6 +12,7 @@ class Strategy
     when "clockwise" then run_clockwise(elem)
     when "counter_clockwise" then run_counter_clockwise(elem)
     when "random" then run_random(elem)
+    when "winning" then run_winning(elem)
     else
       raise "Not implemented error"
     end
@@ -32,5 +35,9 @@ class Strategy
   def run_random(elem)
     arr = [:arrow_left, :arrow_up, :arrow_right, :arrow_down]
     elem.send_keys arr.sample
+  end
+
+  def run_winning(elem)
+    WinningStrategy.new(elem).run
   end
 end
