@@ -3,15 +3,16 @@ require "CSV"
 require_relative "strategies/clockwise_strat"
 require_relative "strategies/counter_clockwise_strat"
 require_relative "strategies/random_strat"
+require_relative "strategies/winning_strat"
 
 csv_path = File.expand_path(File.dirname(__FILE__)) + "/scores.csv"
 
 @driver = Selenium::WebDriver.for :firefox
-@driver.navigate.to "file://localhost/Users/danielmee/Code/2048_scripted/index.html"
+@driver.navigate.to "file://localhost/Users/dmee/Code/2048/index.html"
 
-wait = Selenium::WebDriver::Wait.new(:timeout => 30)
+@wait = Selenium::WebDriver::Wait.new(:timeout => 30)
 time = Time.now
-wait.until { Time.now > (time + 5) }
+@wait.until { Time.now > (time + 2) }
 
 @element = @driver.find_element(:class, 'game-container')
 
@@ -57,6 +58,8 @@ end
 
 def do_winning
   while @driver.find_elements(:class, 'game-over').empty?
+    time = Time.now
+    @wait.until { Time.now > (time + 0.5) }
     WinningStrat.new(@driver).run
   end
   @winning_scores << @driver.find_element(:class, 'score-container').text.split(/\D/)[0]
