@@ -1,11 +1,13 @@
 require "selenium-webdriver"
 require "CSV"
-require_relative "strategy"
+require_relative "strategies/clockwise_strat"
+require_relative "strategies/counter_clockwise_strat"
+require_relative "strategies/random_strat"
 
 csv_path = File.expand_path(File.dirname(__FILE__)) + "/scores.csv"
 
 @driver = Selenium::WebDriver.for :firefox
-@driver.navigate.to "http://gabrielecirulli.github.io/2048/"
+@driver.navigate.to "file://localhost/Users/danielmee/Code/2048_scripted/index.html"
 
 wait = Selenium::WebDriver::Wait.new(:timeout => 30)
 time = Time.now
@@ -28,7 +30,7 @@ end
 
 def do_clockwise
   while @driver.find_elements(:class, 'game-over').empty?
-    Strategy.new("clockwise").run(@element)
+    ClockwiseStrat.new(@driver).run
   end
   @clockwise_scores << @driver.find_element(:class, 'score-container').text.split(/\D/)[0]
 
@@ -37,7 +39,7 @@ end
 
 def do_counter_clockwise
   while @driver.find_elements(:class, 'game-over').empty?
-    Strategy.new("counter_clockwise").run(@element)
+    CounterClockwiseStrat.new(@driver).run
   end
   @counter_clockwise_scores << @driver.find_element(:class, 'score-container').text.split(/\D/)[0]
 
@@ -46,7 +48,7 @@ end
 
 def do_random
   while @driver.find_elements(:class, 'game-over').empty?
-    Strategy.new("random").run(@element)
+    RandomStrat.new(@driver).run
   end
   @random_scores << @driver.find_element(:class, 'score-container').text.split(/\D/)[0]
 
@@ -55,7 +57,7 @@ end
 
 def do_winning
   while @driver.find_elements(:class, 'game-over').empty?
-    Strategy.new("winning").run(@element)
+    WinningStrat.new(@driver).run
   end
   @winning_scores << @driver.find_element(:class, 'score-container').text.split(/\D/)[0]
 

@@ -1,9 +1,6 @@
-class WinningStrategy
-  attr_reader :elem
+require_relative "strategy"
 
-  def initialize(elem)
-    @elem = elem
-  end
+class ClockwiseStrat < Strategy
 
   def run
     elem.send_keys :arrow_left
